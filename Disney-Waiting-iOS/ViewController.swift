@@ -7,19 +7,41 @@
 //
 
 import UIKit
+import SafariServices
+import Alamofire
+import SwiftyJSON
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, SFSafariViewControllerDelegate {
+    
+    private var webview: UIWebView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
+    @IBAction func showTDL() {
+        let url = "http://info.tokyodisneyresort.jp/s/gps/tdl_index.html?nextUrl=http://info.tokyodisneyresort.jp/rt/s/realtime/tdl_attraction.html&lat=35.631238&lng=139.882390"
+        openSafariViewController(url)
+    }
+    
+    @IBAction func showTDS() {
+        let url = "http://info.tokyodisneyresort.jp/s/gps/tds_index.html?nextUrl=http://info.tokyodisneyresort.jp/rt/s/realtime/tds_attraction.html&lat=35.631238&lng=139.882390"
+        openSafariViewController(url)
+    }
+    
+    func openSafariViewController(url: String) {
+        if let websiteUrl = NSURL(string: url) {
+            let safariViewController = SFSafariViewController(URL: websiteUrl)
+            safariViewController.delegate = self
+            presentViewController(safariViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func safariViewControllerDidFinish(controller: SFSafariViewController) {
+        print("close sfsv")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-
 }
-
